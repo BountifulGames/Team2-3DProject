@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 velocity;
     private float originalStepOffset;
+    public Animator playerAnimator;
 
     private void Start()
     {
@@ -27,13 +28,27 @@ public class PlayerController : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        // Reset all triggers
+        playerAnimator.ResetTrigger("Idle");
+        playerAnimator.ResetTrigger("Walking");
+        playerAnimator.ResetTrigger("Running");
+
+        if (move != Vector3.zero) // player is moving
         {
-            controller.Move(move * runningSpeed * Time.deltaTime);
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                controller.Move(move * runningSpeed * Time.deltaTime);
+                playerAnimator.SetTrigger("Running");
+            }
+            else
+            {
+                controller.Move(move * speed * Time.deltaTime);
+                playerAnimator.SetTrigger("Walking");
+            }
         }
         else
         {
-            controller.Move(move * speed * Time.deltaTime);
+            playerAnimator.SetTrigger("Idle");
         }
 
         // Crouch
