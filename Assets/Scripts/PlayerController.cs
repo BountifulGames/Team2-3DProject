@@ -63,6 +63,22 @@ public class PlayerController : MonoBehaviour
             controller.stepOffset = originalStepOffset;
         }
 
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            playerAnimator.SetBool("isAttacking", true);
+
+        }
+
+        if (playerAnimator.GetBool("isAttacking"))
+        {
+            if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack") &&
+                playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+            {
+                playerAnimator.SetBool("isAttacking", false);
+
+            }
+        }
+
         // Gravity
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
