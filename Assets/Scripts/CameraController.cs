@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour
         var xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
         var yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
 
-        playerBody.localRotation = xQuat; // Apply horizontal rotation to the player's body.
+        playerBody.localRotation = xQuat * yQuat; // Apply both rotations to the player's body.
         transform.localRotation = yQuat; // Apply vertical rotation to the camera.
     }
 }

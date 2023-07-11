@@ -13,17 +13,21 @@ public class EnemyController : MonoBehaviour
     public NavMeshAgent agent;  // Enemy's navigation agent
     private float timePlayerOutOfSight;  // Time player is out of enemy's sight
     private int currentWaypointIndex;  // Index of current waypoint in patrol
-    
-    void Start()
-{
-    agent = GetComponent<NavMeshAgent>();
-    timePlayerOutOfSight = 5f;
+    public Animator monsterAnimator;
 
-    // Reset the enemy's position and start patrolling
-    currentWaypointIndex = 0;
-    agent.isStopped = false;  // Add this line
-    StartCoroutine(Patrol());
-}
+    public float attackRange = 2f;  // Attack range
+    public float attackDelay = 1f;  // Attack delay
+    private float lastAttackTime = 0;  // When the last attack happened
+    void Start()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        timePlayerOutOfSight = 5f;
+
+        // Reset the enemy's position and start patrolling
+        currentWaypointIndex = 0;
+        agent.isStopped = false;  // Add this line
+        StartCoroutine(Patrol());
+    }
 
     void Update()
     {
@@ -57,6 +61,14 @@ public class EnemyController : MonoBehaviour
             IncreaseOutOfSightCounter();
             LoseSightOfPlayerAfterDelay();
         }
+
+        if (monsterAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack") &&
+            monsterAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+        {
+            monsterAnimator.SetBool("isAttacking", false);
+            monsterAnimator.SetBool("Walking", true);
+            agent.isStopped = false;  // Resume moving
+        }
     }
 
     float CalculateDistanceToPlayer()
@@ -82,7 +94,7 @@ public class EnemyController : MonoBehaviour
 
     bool IsLineOfSightClear(Vector3 direction, float distance)
     {
-        return !Physics.Raycast(transform.position, direction, distance, LayerMask.GetMask("Obstacles"));
+        return !Physics.Raycast(transform.position, direction, distance, LayerMask.GetMask("Wall"));
     }
 
     void ResetOutOfSightCounter()
@@ -108,13 +120,30 @@ public class EnemyController : MonoBehaviour
     void PursuePlayer()
     {
         CancelInvoke("RestartPatrol");
-        agent.isStopped = false;
         StopCoroutine(Patrol());
-        agent.destination = player.position;
-        // animator.SetBool("IsRunning", true);
-        // Add your attack code here if the player is close enough to the enemy
+
+        // Only start pursuing the player if the enemy is not currently attacking
+        if (!monsterAnimator.GetBool("isAttacking"))
+        {
+            agent.isStopped = false;
+            agent.destination = player.position;
+            monsterAnimator.SetBool("Walking", true);
+        }
+
+        // If the player is close enough to the enemy, start attacking
+        if (Vector3.Distance(transform.position, player.position) <= attackRange)
+        {
+            agent.isStopped = true;  // Stop moving when attacking
+            monsterAnimator.SetBool("isAttacking", true);
+            monsterAnimator.SetBool("Walking", false);
+        }
     }
 
+    void AttackPlayer()
+    {
+        monsterAnimator.SetBool("isAttacking", true);
+        lastAttackTime = Time.time;
+    }
 
     void LoseSightOfPlayerAfterDelay()
     {
@@ -176,48 +205,37 @@ public class EnemyController : MonoBehaviour
         StartCoroutine(Patrol());
     }
 
-IEnumerator Patrol()
-{
-    while (true)
+    IEnumerator Patrol()
     {
-        agent.SetDestination(GetRandomWaypoint().transform.position);
-        Debug.Log("Setting destination to random waypoint");
-
-        while (Vector3.Distance(transform.position, GetRandomWaypoint().position) > agent.stoppingDistance + 0.1f)
+        while (true)
         {
-            Debug.Log("Moving to waypoint, distance remaining: " + Vector3.Distance(transform.position, GetRandomWaypoint().position));
-            // Debug.Log("Current velocity: " + agent.velocity);
-            yield return null;
-        }
+            monsterAnimator.SetBool("Walking", true);
+            // Get a random waypoint once at the start of the patrol cycle
+            Transform waypoint = GetRandomWaypoint();
+            agent.SetDestination(waypoint.position);
+            Debug.Log("Setting destination to waypoint at position: " + waypoint.position);
 
-        Debug.Log("Reached random waypoint");
-        Debug.Log("Starting to look around");
-
-        for (float rotated = 0; rotated < 360; rotated += 10)
-        {
-            if (!agent.isStopped) // If the enemy starts chasing the player, break the rotation
+            while (Vector3.Distance(transform.position, waypoint.position) > agent.stoppingDistance + 0.1f)
             {
-                Debug.Log("Interrupted while looking around");
-                break;
+                Debug.Log("Moving to waypoint, distance remaining: " + Vector3.Distance(transform.position, waypoint.position));
+                Debug.Log("Waypoint position is still: " + waypoint.position);
+                yield return null;
             }
 
-            transform.rotation = Quaternion.Euler(0, rotated, 0);
-            yield return new WaitForSeconds(0.2f); // Wait a little bit between each rotation
+            Debug.Log("Reached waypoint at position: " + waypoint.position);
+            Debug.Log("Waiting at waypoint");
+            monsterAnimator.SetBool("Idle", true);
+            // Add delay here if you want the enemy to wait at each waypoint
+            yield return new WaitForSeconds(3f);
         }
+    }
 
-        Debug.Log("Finished looking around");
-        Debug.Log("Waiting at waypoint");
-
-        // Add delay here if you want the enemy to wait at each waypoint
-        yield return new WaitForSeconds(2f);
+    Transform GetRandomWaypoint()
+    {
+        int randomIndex = Random.Range(0, waypoints.Length);
+        return waypoints[randomIndex].transform;
     }
 }
 
-Transform GetRandomWaypoint()
-{
-    int randomIndex = Random.Range(0, waypoints.Length);
-    return waypoints[randomIndex].transform;
-}
-}
 
 
