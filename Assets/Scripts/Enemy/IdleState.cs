@@ -11,6 +11,8 @@ public class IdleState : EnemyBaseState
         // set idle animation
         Debug.Log("Entered Idle State");
         enemy.animator.SetBool("Idle", true);
+        enemy.animator.SetBool("Walking", false);
+        enemy.animator.SetBool("Chasing", false);
         idleWaitTime = Random.Range(2, 5); // wait for 2 to 4 seconds
 
     }

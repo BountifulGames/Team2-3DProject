@@ -10,9 +10,11 @@ public class ChaseState : EnemyBaseState
     {
         Debug.Log("Entered Chase State");
         // set chase animation
-        enemy.animator.SetBool("Walking", true);
+        enemy.animator.SetBool("Chasing", true);
+        enemy.animator.SetBool("Walking", false);
         enemy.animator.SetBool("Idle", false);
         enemy.agent.isStopped = false;
+        enemy.agent.speed = enemy.chaseSpeed;
         timePlayerOutOfSight = 0f;
     }
 

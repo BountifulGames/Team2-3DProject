@@ -12,6 +12,7 @@ public class EnemyController : MonoBehaviour
     public float attackRange = 2.0f;
     public float fieldOfView = 60f;
     public float speed = 3f;
+    public float chaseSpeed = 3.5f;
     public int currentWaypointIndex = 0;
     public float rotationSpeed;
 

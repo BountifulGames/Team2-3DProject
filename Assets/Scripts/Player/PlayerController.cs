@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEditor.Progress;
 
 public class PlayerController : MonoBehaviour
@@ -16,6 +17,8 @@ public class PlayerController : MonoBehaviour
     public float gravity = -9.81f;
     public float crouchHeight = 0.5f;
     public float standHeight = 2.0f;
+    public float respawnTime = 4.0f;
+    private Vector3 respawnPoint;
 
     private Vector3 velocity;
     private float originalStepOffset;
@@ -26,15 +29,21 @@ public class PlayerController : MonoBehaviour
         originalStepOffset = controller.stepOffset;
         inventory = new Inventory();
         itemKeys = new List<string>();
+        respawnPoint = transform.position;
 
     }
 
     private void Update()
     {
+
         // Movement
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
-        if (playerHealth.isDead == true) return;
+        if (playerHealth.isDead)
+        {
+            StartCoroutine(Respawn());
+            return;
+        }
 
         Vector3 move = transform.right * x + transform.forward * z;
 
@@ -175,5 +184,17 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator Respawn()
+    {
+
+        // Wait for the respawn time
+        yield return new WaitForSeconds(respawnTime);
+
+        Scene currentScene = SceneManager.GetActiveScene();
+
+        // Reload the Scene
+        SceneManager.LoadScene(currentScene.name);
     }
 }

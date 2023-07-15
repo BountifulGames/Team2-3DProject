@@ -628,11 +628,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5707ad8cf381a42854672d37d58480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &1166821048 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 86214029825680801, guid: d9b7d4d767151674e98b2166ef00cf76, type: 3}
-  m_PrefabInstance: {fileID: 6368036545203976426}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1305417851
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,7 +1006,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6781d199a53bb634ebba9f84c902371f, type: 3}
       propertyPath: m_Name
-      value: MonsterIdle
+      value: Demon
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6781d199a53bb634ebba9f84c902371f, type: 3}
       propertyPath: m_TagString
@@ -1371,34 +1366,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 86214029825680801, guid: d9b7d4d767151674e98b2166ef00cf76, type: 3}
-      propertyPath: m_CullingMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2153644148459427006, guid: d9b7d4d767151674e98b2166ef00cf76, type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 1166821048}
-    - target: {fileID: 2153644148459427006, guid: d9b7d4d767151674e98b2166ef00cf76, type: 3}
-      propertyPath: maxHealth
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5145887633406538730, guid: d9b7d4d767151674e98b2166ef00cf76, type: 3}
-      propertyPath: speed
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5145887633406538730, guid: d9b7d4d767151674e98b2166ef00cf76, type: 3}
-      propertyPath: runningSpeed
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5145887633406538730, guid: d9b7d4d767151674e98b2166ef00cf76, type: 3}
-      propertyPath: crouchingSpeed
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5780976455779662652, guid: d9b7d4d767151674e98b2166ef00cf76, type: 3}
-      propertyPath: playerHealth
-      value: 
-      objectReference: {fileID: 1166821045}
     - target: {fileID: 6328234640512909275, guid: d9b7d4d767151674e98b2166ef00cf76, type: 3}
       propertyPath: m_RootOrder
       value: 1

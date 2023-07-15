@@ -6,7 +6,7 @@ public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 100;
     public float currentHealth;
-    private bool isBleeding;
+    public bool isBleeding;
     private float bleedDamage = 2f; // Damage per second
     private Vector3 deathPos = Vector3.zero;
     public Animator animator;

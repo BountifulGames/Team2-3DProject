@@ -12,6 +12,7 @@ public class AttackState : EnemyBaseState
         enemy.Attack(); // Call the attack function
         enemy.animator.SetBool("Walking", false);
         enemy.animator.SetBool("Idle", false);
+        enemy.animator.SetBool("Chasing", false);
     }
 
     public override void Update(EnemyController enemy)
