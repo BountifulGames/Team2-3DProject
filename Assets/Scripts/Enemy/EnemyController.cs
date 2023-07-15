@@ -142,6 +142,8 @@ public class EnemyController : MonoBehaviour
         if (playerHealth != null)
         {
             playerHealth.TakeDamage(1); // Deal damage to the player
+            playerHealth.StartBleeding(); // Start the bleed effect
+
         }
     }
 }
