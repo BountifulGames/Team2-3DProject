@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public PlayerHealth playerHealth;
     public float Sensitivity
     {
         get { return sensitivity; }
@@ -13,7 +14,7 @@ public class CameraController : MonoBehaviour
 
     [Range(0.1f, 9f)][SerializeField] private float sensitivity = 2f;
     [Tooltip("Limits vertical camera rotation. Prevents the flipping that happens when rotation goes above 90.")]
-    [Range(0f, 90f)][SerializeField] private float yRotationLimit = 88f;
+    [Range(0f, 90f)][SerializeField] private float yRotationLimit = 45f;
 
     public Transform playerBody; // The player's body.
 
@@ -23,6 +24,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        if (playerHealth.isDead) return;
         rotation.x += Input.GetAxis(xAxis) * sensitivity;
         rotation.y += Input.GetAxis(yAxis) * sensitivity;
         rotation.y = Mathf.Clamp(rotation.y, -yRotationLimit, yRotationLimit);
