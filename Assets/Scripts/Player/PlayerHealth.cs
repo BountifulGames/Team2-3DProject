@@ -8,10 +8,14 @@ public class PlayerHealth : MonoBehaviour
     public float currentHealth;
     private bool isBleeding;
     private float bleedDamage = 2f; // Damage per second
+    private Vector3 deathPos = Vector3.zero;
+    public Animator animator;
+    public bool isDead;
 
     private void Start()
     {
         currentHealth = maxHealth;
+        isDead = false;
     }
 
     public void TakeDamage(float amount)
@@ -65,5 +69,8 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log("Player has died.");
         // Add additional logic here for what should happen when the player dies
+        animator.SetTrigger("Dead");
+        isDead = true;
+        
     }
 }

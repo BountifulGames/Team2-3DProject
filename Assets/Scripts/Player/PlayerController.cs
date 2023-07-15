@@ -10,8 +10,9 @@ public class PlayerController : MonoBehaviour
     public Inventory inventory;
     private List<string> itemKeys;
     private int selectedItemIndex = 0;
-    public float speed = 6f;
-    public float runningSpeed = 12f;
+    public float speed;
+    public float runningSpeed;
+    public float crouchingSpeed;
     public float gravity = -9.81f;
     public float crouchHeight = 0.5f;
     public float standHeight = 2.0f;
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
         // Movement
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
+        if (playerHealth.isDead == true) return;
 
         Vector3 move = transform.right * x + transform.forward * z;
 
@@ -64,11 +66,13 @@ public class PlayerController : MonoBehaviour
         // Crouch
         if (Input.GetKey(KeyCode.LeftControl))
         {
+            controller.Move(move * crouchingSpeed * Time.deltaTime);
             controller.height = crouchHeight;
             controller.stepOffset = 0;
         }
         else
         {
+            controller.Move(move * speed * Time.deltaTime);
             controller.height = standHeight;
             controller.stepOffset = originalStepOffset;
         }
