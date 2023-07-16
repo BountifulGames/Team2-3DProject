@@ -91,7 +91,7 @@ public class PlayerHealth : MonoBehaviour
     {
         currentMana += amount;
 
-        currentMana = Mathf.Min(currentMana, maxMana); // Make sure health doesn't go above maxHealth
+        // currentMana = Mathf.Min(currentMana, maxMana); // Make sure health doesn't go above maxMana
         Debug.Log("<color=blue> Player mana: " + currentMana + "</color>");
     }
 
