@@ -119,7 +119,7 @@ public class EnemyController : MonoBehaviour
         float angle = Vector3.Angle(transform.forward, dirToPlayer);
 
         // Player is in field of view if angle is less than or equal to half of field of view
-        if (angle <= fieldOfView / 2f)
+        if (angle <= fieldOfView)
         {
             // Make sure there is no obstruction between the enemy and the player
             RaycastHit hit;

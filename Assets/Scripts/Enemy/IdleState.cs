@@ -33,5 +33,11 @@ public class IdleState : EnemyBaseState
         {
             idleWaitTime -= Time.deltaTime;
         }
+
+        // check for player in field of view and proximity
+        if (enemy.IsPlayerInFieldOfView() && enemy.IsPlayerInProximity())
+        {
+            enemy.TransitionToState(enemy.chaseState);
+        }
     }
 }

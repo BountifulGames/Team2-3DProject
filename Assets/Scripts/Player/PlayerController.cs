@@ -15,21 +15,24 @@ public class PlayerController : MonoBehaviour
     public float runningSpeed;
     public float crouchingSpeed;
     public float gravity = -9.81f;
-    public float crouchHeight = 0.5f;
-    public float standHeight = 2.0f;
-    public float respawnTime = 4.0f;
-    private Vector3 respawnPoint;
+    public float crouchHeight;
+    public float standHeight;
+    public float respawnTime;
 
     private Vector3 velocity;
     private float originalStepOffset;
     public Animator playerAnimator;
+
+    public AudioSource walkingAudio;
+    public AudioSource runningAudio;
+    public AudioSource crouchAudio;
+    public AudioSource potionAudio;
 
     private void Start()
     {
         originalStepOffset = controller.stepOffset;
         inventory = new Inventory();
         itemKeys = new List<string>();
-        respawnPoint = transform.position;
 
     }
 
@@ -54,22 +57,46 @@ public class PlayerController : MonoBehaviour
 
         CycleItems();
 
-        if (move != Vector3.zero) // player is moving
+        if (move != Vector3.zero && !playerHealth.isDead) // player is moving
         {
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 controller.Move(move * runningSpeed * Time.deltaTime);
                 playerAnimator.SetTrigger("Running");
+                if (!runningAudio.isPlaying)
+                {
+                    PlayAtRandomPoint(runningAudio);
+                }
+                if (walkingAudio.isPlaying)
+                {
+                    walkingAudio.Stop();
+                }
             }
             else
             {
                 controller.Move(move * speed * Time.deltaTime);
                 playerAnimator.SetTrigger("Walking");
+                if (!walkingAudio.isPlaying)
+                {
+                    PlayAtRandomPoint(walkingAudio);
+                }
+                if (runningAudio.isPlaying)
+                {
+                    runningAudio.Stop();
+                }
             }
         }
         else
         {
             playerAnimator.SetTrigger("Idle");
+            if (runningAudio.isPlaying)
+            {
+                runningAudio.Stop();
+            }
+            if (walkingAudio.isPlaying)
+            {
+                walkingAudio.Stop();
+            }
         }
 
         // Crouch
@@ -78,12 +105,29 @@ public class PlayerController : MonoBehaviour
             controller.Move(move * crouchingSpeed * Time.deltaTime);
             controller.height = crouchHeight;
             controller.stepOffset = 0;
+            if(walkingAudio.isPlaying)
+            {
+                walkingAudio.Stop();
+            }
+            if (runningAudio.isPlaying)
+            {
+                runningAudio.Stop();
+            }
+
+            if (!crouchAudio.isPlaying)
+            {
+                PlayAtRandomPoint(crouchAudio);
+            }
         }
         else
         {
             controller.Move(move * speed * Time.deltaTime);
             controller.height = standHeight;
             controller.stepOffset = originalStepOffset;
+            if (crouchAudio.isPlaying)
+            {
+                crouchAudio.Stop();
+            }
         }
 
         if (Input.GetKey(KeyCode.Mouse0))
@@ -161,6 +205,7 @@ public class PlayerController : MonoBehaviour
                         Debug.Log("Used Potion");
                         playerHealth.Heal(50); // This heals the player
                         playerHealth.StopBleeding(); // stops the bleeding
+                        potionAudio.Play();
 
                         // Check if item is still in the inventory
                         if (inventory.GetItemCount(selectedItemName) == 0)
@@ -183,6 +228,15 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    void PlayAtRandomPoint(AudioSource audioSource)
+    {
+        if (!audioSource.isPlaying)
+        {
+            audioSource.time = Random.Range(0, audioSource.clip.length);
+            audioSource.Play();
         }
     }
 

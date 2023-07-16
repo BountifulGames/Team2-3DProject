@@ -21,6 +21,7 @@ public class Injured : MonoBehaviour
     {
         if (playerHealth.isBleeding)
         {
+            // test
             image.gameObject.SetActive(true);
             StartCoroutine(Pulse());
         }
