@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour
     public void CycleItems()
     {
         // Update the itemKeys list to match the current inventory
-        itemKeys = new List<string>(inventory.GetKeys());
+        itemKeys = new List<string>(Inventory.Instance.GetKeys());
 
         // Cycle through items with mouse wheel
         float mouseScroll = Input.GetAxis("Mouse ScrollWheel");
@@ -211,7 +211,7 @@ public class PlayerController : MonoBehaviour
                 if (selectedItemName == "HealthPotion" && playerHealth.currentHealth < playerHealth.maxHealth)
                 {
                     // Try to use the item. Only proceed if the item could be used (i.e., the item was in the inventory).
-                    if (inventory.UseItem(selectedItemName))
+                    if (Inventory.Instance.UseItem(selectedItemName))
                     {
                         Debug.Log("Used Potion");
                         playerHealth.Heal(50); // This heals the player
@@ -219,7 +219,7 @@ public class PlayerController : MonoBehaviour
                         potionAudio.Play();
 
                         // Check if item is still in the inventory
-                        if (inventory.GetItemCount(selectedItemName) == 0)
+                        if (Inventory.Instance.GetItemCount(selectedItemName) == 0)
                         {
                             selectedItemIndex = 0; // Reset the selected item index
                         }
@@ -229,7 +229,7 @@ public class PlayerController : MonoBehaviour
                         Debug.Log("Failed to use item: " + selectedItemName);
                     }
                 }
-                else if (selectedItemName == "Key" && inventory.UseItem(selectedItemName))
+                else if (selectedItemName == "Key" && Inventory.Instance.UseItem(selectedItemName))
                 {
                     Debug.Log("Unlocked Door");
                     // Perform any additional actions needed when the key is used.
