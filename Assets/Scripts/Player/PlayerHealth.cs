@@ -9,7 +9,6 @@ public class PlayerHealth : MonoBehaviour
     public float currentHealth;
     public bool isBleeding;
     private float bleedDamage = 2f; // Damage per second
-    private Vector3 deathPos = Vector3.zero;
     public Animator animator;
     public bool isDead;
     public RawImage deathFade;
@@ -17,10 +16,13 @@ public class PlayerHealth : MonoBehaviour
     public AudioSource deathHitAudio;
     public AudioSource deathBreathAudio;
     public PlayerController player;
+    public float currentMana;
+    public float maxMana = 100;
 
     private void Start()
     {
         currentHealth = maxHealth;
+        currentMana = 0;
         isDead = false;
         deathFade.gameObject.SetActive(false);
 
@@ -81,6 +83,15 @@ public class PlayerHealth : MonoBehaviour
 
         currentHealth = Mathf.Min(currentHealth, maxHealth); // Make sure health doesn't go above maxHealth
         Debug.Log("<color=green> Player health: " + currentHealth + "</color>");
+    }
+
+
+    public void Mana(int amount)
+    {
+        currentMana += amount;
+
+        currentMana = Mathf.Min(currentMana, maxMana); // Make sure health doesn't go above maxHealth
+        Debug.Log("<color=blue> Player mana: " + currentHealth + "</color>");
     }
 
     private void Die()
