@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
 
+        CycleItems();
+
         // Movement
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
@@ -50,18 +52,23 @@ public class PlayerController : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
 
-        // Reset all triggers
-        playerAnimator.ResetTrigger("Idle");
-        playerAnimator.ResetTrigger("Walking");
-        playerAnimator.ResetTrigger("Running");
+        // Calculate speed multiplier based on direction
+        float speedMultiplier = 1;
+        if (z < 0) // moving backwards
+        {
+            speedMultiplier = 0.5f; // 50% of the original speed
+        }
+        else if (x != 0) // moving sideways
+        {
+            speedMultiplier = 0.75f; // 75% of the original speed
+        }
 
-        CycleItems();
 
         if (move != Vector3.zero && !playerHealth.isDead) // player is moving
         {
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) && z > 0)
             {
-                controller.Move(move * runningSpeed * Time.deltaTime);
+                controller.Move(move * runningSpeed * speedMultiplier * Time.deltaTime);
                 playerAnimator.SetTrigger("Running");
                 if (!runningAudio.isPlaying)
                 {
@@ -74,7 +81,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                controller.Move(move * speed * Time.deltaTime);
+                controller.Move(move * speed * speedMultiplier * Time.deltaTime);
                 playerAnimator.SetTrigger("Walking");
                 if (!walkingAudio.isPlaying)
                 {
@@ -102,7 +109,7 @@ public class PlayerController : MonoBehaviour
         // Crouch
         if (Input.GetKey(KeyCode.LeftControl))
         {
-            controller.Move(move * crouchingSpeed * Time.deltaTime);
+            controller.Move(move * crouchingSpeed  * speedMultiplier * Time.deltaTime);
             controller.height = crouchHeight;
             controller.stepOffset = 0;
             if(walkingAudio.isPlaying)
@@ -121,7 +128,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            controller.Move(move * speed * Time.deltaTime);
+            controller.Move(move * speed * speedMultiplier * Time.deltaTime);
             controller.height = standHeight;
             controller.stepOffset = originalStepOffset;
             if (crouchAudio.isPlaying)
