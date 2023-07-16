@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 178967672066629418}
   - component: {fileID: 7862128721922905274}
   - component: {fileID: 912619309293993693}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: ManaFx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   - component: {fileID: 7945332433705597391}
   - component: {fileID: 7229594068729749777}
   - component: {fileID: 1526928844996024793}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Death
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 8494070884047256163}
   - component: {fileID: 6567606168497057258}
   - component: {fileID: 356127522736211463}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Injured
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,7 +231,7 @@ GameObject:
   - component: {fileID: 7250210455417367202}
   - component: {fileID: 2240199889409922415}
   - component: {fileID: 2444339478550551531}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: PlayerFx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,7 +338,7 @@ GameObject:
   - component: {fileID: 8480410356636196131}
   - component: {fileID: 7074770347347757979}
   - component: {fileID: 5780976455779662652}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -550,6 +550,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: ce74b4f8223fef6479345ba290e3991d, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ce74b4f8223fef6479345ba290e3991d, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ce74b4f8223fef6479345ba290e3991d, type: 3}
       propertyPath: m_TagString
@@ -794,6 +798,9 @@ PrefabInstance:
       addedObject: {fileID: 7003025943684965347}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ce74b4f8223fef6479345ba290e3991d, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 5956575150582700230}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ce74b4f8223fef6479345ba290e3991d, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 3565199883830196012}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ce74b4f8223fef6479345ba290e3991d, type: 3}
       insertIndex: -1
@@ -892,7 +899,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 1686020063392723030}
   playerHealth: {fileID: 2153644148459427006}
-  mana: {fileID: 0}
+  mana: {fileID: 4070951172928486062}
   speed: 1.5
   runningSpeed: 3
   crouchingSpeed: 0.5
@@ -901,6 +908,7 @@ MonoBehaviour:
   standHeight: 2.5
   respawnTime: 4
   usedMana: 0
+  petrify: {fileID: 5956575150582700230}
   playerAnimator: {fileID: 86214029825680801}
   walkingAudio: {fileID: 5684066672478729033}
   runningAudio: {fileID: 6496391824885267680}
@@ -977,6 +985,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InteractorSource: {fileID: 6328234640512909275}
   InteractRange: 2
+--- !u!114 &5956575150582700230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6672565860267697505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4faad4a179861914580fa778084c22de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magicCost: 100
+  magicRange: 10
+  magicAngle: 60
+  playerController: {fileID: 5145887633406538730}
+  playerHealth: {fileID: 2153644148459427006}
 --- !u!82 &3565199883830196012
 AudioSource:
   m_ObjectHideFlags: 0

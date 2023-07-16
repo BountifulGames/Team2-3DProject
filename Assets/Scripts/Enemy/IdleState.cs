@@ -39,5 +39,9 @@ public class IdleState : EnemyBaseState
         {
             enemy.TransitionToState(enemy.chaseState);
         }
+        if (enemy.isPetrified)
+        {
+            enemy.TransitionToState(enemy.petrifiedState);
+        }
     }
 }

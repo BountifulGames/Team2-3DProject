@@ -60524,10 +60524,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 331746000}
     - target: {fileID: 6601555823476053092, guid: 0c28dba56f4d8e14e9a20cf63a9a9373, type: 3}
-      propertyPath: detectionRange
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6601555823476053092, guid: 0c28dba56f4d8e14e9a20cf63a9a9373, type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 511460019}
@@ -60543,18 +60539,6 @@ PrefabInstance:
       propertyPath: waypoints.Array.data[2]
       value: 
       objectReference: {fileID: 52202019}
-    - target: {fileID: 7223948894429238114, guid: 0c28dba56f4d8e14e9a20cf63a9a9373, type: 3}
-      propertyPath: m_Radius
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7223948894429238114, guid: 0c28dba56f4d8e14e9a20cf63a9a9373, type: 3}
-      propertyPath: m_WalkableMask
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7223948894429238114, guid: 0c28dba56f4d8e14e9a20cf63a9a9373, type: 3}
-      propertyPath: m_AutoTraverseOffMeshLink
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

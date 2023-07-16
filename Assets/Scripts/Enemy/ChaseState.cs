@@ -36,5 +36,10 @@ public class ChaseState : EnemyBaseState
             enemy.Chase();
             timePlayerOutOfSight = 0f;
         }
+
+        if (enemy.isPetrified)
+        {
+            enemy.TransitionToState(enemy.petrifiedState);
+        }
     }
 }
