@@ -84,22 +84,14 @@ public class EnemyController : MonoBehaviour
     {
         animator.SetTrigger("Attack");
 
-        while (IsPlayerAttackable() && !playerHealth.isDead)
+        while (IsPlayerAttackable())
         {
             animator.SetTrigger("Attack");
             yield return new WaitForSeconds(2f);
         }
 
         // If the player has gotten too far away, go back to chasing them
-        if (!playerHealth.isDead)
-        {
-            TransitionToState(chaseState);
-        }
-        if (playerHealth.isDead)
-        {
-            TransitionToState(idleState);
-        }
-        
+        TransitionToState(chaseState);
         
     }
 
