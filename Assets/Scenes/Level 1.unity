@@ -61130,6 +61130,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6601555823476053092, guid: 0c28dba56f4d8e14e9a20cf63a9a9373, type: 3}
+      propertyPath: playerController
+      value: 
+      objectReference: {fileID: 511460019}
+    - target: {fileID: 6601555823476053092, guid: 0c28dba56f4d8e14e9a20cf63a9a9373, type: 3}
       propertyPath: waypoints.Array.data[0]
       value: 
       objectReference: {fileID: 1625290324}

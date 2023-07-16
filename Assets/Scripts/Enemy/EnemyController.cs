@@ -28,6 +28,9 @@ public class EnemyController : MonoBehaviour
 
     public Coroutine attackCoroutine;
 
+    public PlayerController playerController;
+
+
 
     private void Start()
     {
@@ -106,20 +109,39 @@ public class EnemyController : MonoBehaviour
 
     public bool IsPlayerInProximity()
     {
+        // Check if the player is running
+        bool isPlayerRunning = playerController.IsPlayerRunning;
+
+        // If the player is running, increase detection range by a certain amount
+        float actualDetectionRange = isPlayerRunning ? detectionRange * 2f : detectionRange;
+
         // Check if the player is within detection range
-        return Vector3.Distance(transform.position, player.position) < detectionRange;
+        return Vector3.Distance(transform.position, player.position) < actualDetectionRange;
     }
 
     public bool IsPlayerInFieldOfView()
     {
         // Calculate direction to player
         Vector3 dirToPlayer = (player.position - transform.position).normalized;
+        // Check if the player is running
+        bool isPlayerRunning = playerController.IsPlayerRunning;
 
         // Calculate angle between forward direction and direction to player
         float angle = Vector3.Angle(transform.forward, dirToPlayer);
 
         // Player is in field of view if angle is less than or equal to half of field of view
-        if (angle <= fieldOfView)
+        if (angle <= fieldOfView && !isPlayerRunning)
+        {
+            // Make sure there is no obstruction between the enemy and the player
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, dirToPlayer, out hit, detectionRange))
+            {
+                if (hit.transform == player)
+                {
+                    return true;
+                }
+            }
+        } else
         {
             // Make sure there is no obstruction between the enemy and the player
             RaycastHit hit;

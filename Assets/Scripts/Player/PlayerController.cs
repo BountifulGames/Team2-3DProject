@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
     public AudioSource crouchAudio;
     public AudioSource potionAudio;
 
+    public bool IsPlayerRunning { get; private set; }
+
     private void Start()
     {
         originalStepOffset = controller.stepOffset;
@@ -66,10 +68,11 @@ public class PlayerController : MonoBehaviour
 
         if (move != Vector3.zero && !playerHealth.isDead) // player is moving
         {
-            if (Input.GetKey(KeyCode.LeftShift) && z > 0)
+            if (Input.GetKey(KeyCode.LeftShift) && z > 0 && !Input.GetKey(KeyCode.LeftControl))
             {
                 controller.Move(move * runningSpeed * speedMultiplier * Time.deltaTime);
                 playerAnimator.SetTrigger("Running");
+                IsPlayerRunning = true;
                 if (!runningAudio.isPlaying)
                 {
                     PlayAtRandomPoint(runningAudio);
@@ -83,6 +86,7 @@ public class PlayerController : MonoBehaviour
             {
                 controller.Move(move * speed * speedMultiplier * Time.deltaTime);
                 playerAnimator.SetTrigger("Walking");
+                IsPlayerRunning = false;
                 if (!walkingAudio.isPlaying)
                 {
                     PlayAtRandomPoint(walkingAudio);
