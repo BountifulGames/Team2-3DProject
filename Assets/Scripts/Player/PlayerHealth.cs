@@ -17,12 +17,13 @@ public class PlayerHealth : MonoBehaviour
     public AudioSource deathBreathAudio;
     public PlayerController player;
     public float currentMana;
-    public float maxMana = 100;
+    public float maxMana;
 
     private void Start()
     {
         currentHealth = maxHealth;
         currentMana = 0;
+        maxMana = 100;
         isDead = false;
         deathFade.gameObject.SetActive(false);
 
@@ -91,7 +92,7 @@ public class PlayerHealth : MonoBehaviour
         currentMana += amount;
 
         currentMana = Mathf.Min(currentMana, maxMana); // Make sure health doesn't go above maxHealth
-        Debug.Log("<color=blue> Player mana: " + currentHealth + "</color>");
+        Debug.Log("<color=blue> Player mana: " + currentMana + "</color>");
     }
 
     private void Die()

@@ -30,5 +30,10 @@ public class AttackState : EnemyBaseState
             enemy.StopCoroutine(enemy.attackCoroutine);
             enemy.attackCoroutine = null;
         }
+
+        if (enemy.isPetrified)
+        {
+            enemy.TransitionToState(enemy.petrifiedState);
+        }
     }
 }
