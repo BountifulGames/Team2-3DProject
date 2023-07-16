@@ -21,6 +21,9 @@ public class EnemyController : MonoBehaviour
     public PatrolState patrolState;
     public ChaseState chaseState;
     public AttackState attackState;
+    public PetrifiedState petrifiedState;
+
+    public bool isPetrified;
 
     public Animator animator;
 
@@ -30,7 +33,7 @@ public class EnemyController : MonoBehaviour
 
     public PlayerController playerController;
 
-
+    private int playerMask;
 
     private void Start()
     {
@@ -40,8 +43,12 @@ public class EnemyController : MonoBehaviour
         patrolState = new PatrolState();
         chaseState = new ChaseState();
         attackState = new AttackState();
+        petrifiedState = new PetrifiedState();
 
         currentState = patrolState;
+        isPetrified = false;
+
+        playerMask = 1 << LayerMask.NameToLayer("Player");
     }
 
     private void Update()
@@ -134,7 +141,7 @@ public class EnemyController : MonoBehaviour
         {
             // Make sure there is no obstruction between the enemy and the player
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, dirToPlayer, out hit, detectionRange))
+            if (Physics.Raycast(transform.position, dirToPlayer, out hit, detectionRange, playerMask))
             {
                 if (hit.transform == player)
                 {
@@ -145,7 +152,7 @@ public class EnemyController : MonoBehaviour
         {
             // Make sure there is no obstruction between the enemy and the player
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, dirToPlayer, out hit, detectionRange))
+            if (Physics.Raycast(transform.position, dirToPlayer, out hit, detectionRange, playerMask))
             {
                 if (hit.transform == player)
                 {

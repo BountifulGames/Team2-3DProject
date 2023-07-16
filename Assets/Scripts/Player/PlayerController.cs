@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public float standHeight;
     public float respawnTime;
     public bool usedMana;
+    public Petrify petrify;
 
     private Vector3 velocity;
     private float originalStepOffset;
@@ -144,23 +145,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.Mouse0))
-        {
-            playerAnimator.SetBool("isAttacking", true);
-
-        }
-
-        if (playerAnimator.GetBool("isAttacking"))
-        {
-            if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack") &&
-                playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
-            {
-                playerAnimator.SetBool("isAttacking", false);
-
-            }
-        }
-
-
         // Gravity
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
@@ -207,7 +191,7 @@ public class PlayerController : MonoBehaviour
         // Use the currently selected item (if there is one)
         if (itemKeys.Count > 0)
         {
-            Debug.Log("Currently selected item: " + itemKeys[selectedItemIndex]);
+            // Debug.Log("Currently selected item: " + itemKeys[selectedItemIndex]);
             string selectedItemName = itemKeys[selectedItemIndex];
             if (Input.GetKeyDown(KeyCode.E))  // Press 'E' to use the item
             {
