@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Inventory
 {
+    public static Inventory Instance { get; private set; } = new Inventory();
+
     private Dictionary<string, int> items;
 
     public Inventory()

@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    private void Start()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     public PlayerHealth playerHealth;
     public float Sensitivity
     {

@@ -25,7 +25,7 @@ public class Interactor : MonoBehaviour
 
     private void handleInteraction()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             Ray r = new Ray(InteractorSource.position, InteractorSource.forward);
             if (Physics.Raycast(r, out RaycastHit hitinfo, InteractRange))
