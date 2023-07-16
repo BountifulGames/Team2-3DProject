@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     public CharacterController controller;
     public PlayerHealth playerHealth;
+    public Mana mana;
     public Inventory inventory;
     private List<string> itemKeys;
     private int selectedItemIndex = 0;
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public float crouchHeight;
     public float standHeight;
     public float respawnTime;
+    public bool usedMana;
 
     private Vector3 velocity;
     private float originalStepOffset;
@@ -35,6 +37,7 @@ public class PlayerController : MonoBehaviour
         originalStepOffset = controller.stepOffset;
         inventory = new Inventory();
         itemKeys = new List<string>();
+        usedMana = false;
 
     }
 
@@ -210,13 +213,33 @@ public class PlayerController : MonoBehaviour
             {
                 if (selectedItemName == "HealthPotion" && playerHealth.currentHealth < playerHealth.maxHealth)
                 {
-                    // Try to use the item. Only proceed if the item could be used (i.e., the item was in the inventory).
+                    // Try to use the item. Only proceed if the item could be used
                     if (Inventory.Instance.UseItem(selectedItemName))
                     {
                         Debug.Log("Used Potion");
                         playerHealth.Heal(50); // This heals the player
                         playerHealth.StopBleeding(); // stops the bleeding
                         potionAudio.Play();
+
+                        // Check if item is still in the inventory
+                        if (Inventory.Instance.GetItemCount(selectedItemName) == 0)
+                        {
+                            selectedItemIndex = 0; // Reset the selected item index
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("Failed to use item: " + selectedItemName);
+                    }
+                } else if (selectedItemName == "ManaPotion" && playerHealth.currentMana < playerHealth.maxMana)
+                {
+                    // Try to use the item. Only proceed if the item could be used
+                    if (Inventory.Instance.UseItem(selectedItemName))
+                    {
+                        Debug.Log("Used Mana Potion");
+                        playerHealth.Mana(100); // This gives player mana
+                        potionAudio.Play();
+                        usedMana = true;
 
                         // Check if item is still in the inventory
                         if (Inventory.Instance.GetItemCount(selectedItemName) == 0)
