@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     public bool usedMana;
     public Petrify petrify;
 
+
+
     private Vector3 velocity;
     private float originalStepOffset;
     public Animator playerAnimator;

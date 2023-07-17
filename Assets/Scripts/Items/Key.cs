@@ -11,8 +11,8 @@ public class Key : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        Inventory.Instance.AddItem("HealthPotion");
-        Debug.Log("Picked Up Potion");
+        Inventory.Instance.AddItem("Key");
+        Debug.Log("Picked Up Key");
         Destroy(gameObject); // Destroy the Key after picking it up
     }
 }
