@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuButtons : MonoBehaviour
 {
@@ -15,30 +16,32 @@ public class MenuButtons : MonoBehaviour
 
     public void OnClickStartGame()
     {
-        //load Level One// SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Level 1");
 
     }
     public void OnClickControlls()
     {
-        if (controlls.activeSelf || settings.activeSelf)
+        if (controlls.activeSelf)
         {
             controlls.SetActive(false);
         }
         else
         {
             controlls.SetActive(true);
+            settings.SetActive(false);
         }
         
     }
     public void OnClickSettings()
     {
-        if (settings.activeSelf || controlls.activeSelf)
+        if (settings.activeSelf)
         {
             settings.SetActive(false);
         }
         else
         {
             settings.SetActive(true);
+            controlls.SetActive(false);
         }
 
     }
