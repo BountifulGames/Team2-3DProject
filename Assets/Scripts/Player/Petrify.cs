@@ -12,6 +12,7 @@ public class Petrify : MonoBehaviour
     public PlayerHealth playerHealth;
     private float currentMana;
     private int enemyMask;
+    public ParticleSystem petrifyFX;
 
     private void Start()
     {
@@ -19,8 +20,6 @@ public class Petrify : MonoBehaviour
     }
     private void Update()
     {
-        currentMana = playerHealth.currentMana;
-
         if (Input.GetKey(KeyCode.Mouse0))
         {
             CastPetrify();
@@ -31,8 +30,9 @@ public class Petrify : MonoBehaviour
     private void CastPetrify()
     {
         Debug.Log("Attempting to cast Petrify");
-        if (currentMana >= magicCost)
+        if (playerHealth.currentMana >= magicCost)
         {
+            
             // Cast a ray forward from the player to detect enemies
             RaycastHit hit;
             if (Physics.Raycast(transform.position, transform.forward, out hit, magicRange, enemyMask))
@@ -40,6 +40,7 @@ public class Petrify : MonoBehaviour
                 EnemyController enemy = hit.transform.GetComponent<EnemyController>();
                 if (enemy != null)
                 {
+                    petrifyFX.Play();
                     // Calculate angle to enemy
                     Vector3 toEnemy = (enemy.transform.position - transform.position).normalized;
                     float angleToEnemy = Vector3.Angle(transform.forward, toEnemy);
@@ -66,6 +67,6 @@ public class Petrify : MonoBehaviour
     {
         playerHealth.currentMana -= amount;
         // Make sure mana doesn't go below 0
-        playerHealth.currentMana = Mathf.Max(currentMana, 0);
+        playerHealth.currentMana = Mathf.Max(playerHealth.currentMana, 0);
     }
 }
